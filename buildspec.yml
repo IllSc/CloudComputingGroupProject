@@ -10,6 +10,8 @@ artifacts:
   type: zip
   files:
     - '.ebextensions/**/*'
+    - 'helloworld/**/*.html'
+    - 'helloworld/**/*.css'
     - 'helloworld/**/*.py'
     - 'requirements.txt'
     - 'setup.py'
