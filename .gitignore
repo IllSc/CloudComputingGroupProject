@@ -2,3 +2,6 @@
 build/
 dist/
 helloworld.egg-info/
+.pytest_cache/
+helloworld/__pycache__/
+tests/__pycache__/
