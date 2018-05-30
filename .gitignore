@@ -5,3 +5,4 @@ helloworld.egg-info/
 .pytest_cache/
 helloworld/__pycache__/
 tests/__pycache__/
+.idea/
