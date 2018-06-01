@@ -51,7 +51,7 @@ def chord():
     
     response = requests.request("GET", url)
     matrices = json.loads(response.text)
-
+    print(response)
     return render_template('chord.html',matrixData=matrices)
 
 if __name__ == '__main__':
