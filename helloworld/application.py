@@ -54,5 +54,9 @@ def chord():
     print(response)
     return render_template('chord.html',matrixData=matrices)
 
+@application.route('/geo')
+def geo():
+    return render_template('geo.html')
+
 if __name__ == '__main__':
     flaskrun(application)
