@@ -2,26 +2,48 @@
 import json
 from flask import Flask, Response
 from helloworld.flaskrun import flaskrun
-from flask import render_template
+from flask import render_template,request, redirect, url_for
 from flask_cdn import CDN
+from elasticsearch import Elasticsearch, RequestsHttpConnection
+import elasticsearch_dsl
+from elasticsearch_dsl import Search
+
+
 
 application = Flask(__name__)
-application.config['CDN_DOMAIN'] = 'd1r1rtixv3o3sw.cloudfront.net'
-application.config['CDN_DEBUG'] = True
-application.config['CDN_HTTPS'] = True
-CDN(application)
+origin = None
+esendpoint = 'search-cloud-computing-project-upc-uq5b7q3o57i5xaez54rlfluabu.eu-central-1.es.amazonaws.com'
+es = Elasticsearch(
+            hosts=[{'host': esendpoint, 'port': 443}],
+            use_ssl=True,
+            verify_certs=True,
+            connection_class=RequestsHttpConnection)
+
 
 """@application.route('/', methods=['GET'])
 def get():
-    return Response(json.dumps({'Output': 'Hello jayanthi'}), mimetype='application/json', status=200)
+    return Response(json.dumps({'Output': 'Hello '}), mimetype='application/json', status=200)
 
 @application.route('/', methods=['POST'])
 def post():
-    return Response(json.dumps({'Output': 'Hello jayanthi'}), mimetype='application/json', status=200) """
+    return Response(json.dumps({'Output': 'Hello '}), mimetype='application/json', status=200) """
 
 
 @application.route('/')
 def homepage():
 	return render_template('template.html')
+
+@application.route('/search', methods = ['GET','POST'])
+def get_info():
+    global origin
+    origin = request.form['value']
+    s = Search(using=es, index="train_departure").query("match", origin_name=origin)
+    result = s.execute()
+    return render_template('result.html', result= result, value = origin)
+
+@application.route('/back', methods = ['GET','POST'])
+def back():
+    return redirect(url_for('homepage'))
+
 if __name__ == '__main__':
     flaskrun(application)
