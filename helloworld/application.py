@@ -1,9 +1,9 @@
 #!flask/bin/python
 import json
+import requests
 from flask import Flask, Response
 from helloworld.flaskrun import flaskrun
 from flask import render_template,request, redirect, url_for
-from flask_cdn import CDN
 from elasticsearch import Elasticsearch, RequestsHttpConnection
 import elasticsearch_dsl
 from elasticsearch_dsl import Search
@@ -18,7 +18,6 @@ es = Elasticsearch(
             use_ssl=True,
             verify_certs=True,
             connection_class=RequestsHttpConnection)
-
 
 """@application.route('/', methods=['GET'])
 def get():
@@ -44,6 +43,16 @@ def get_info():
 @application.route('/back', methods = ['GET','POST'])
 def back():
     return redirect(url_for('homepage'))
+
+@application.route('/chord')
+def chord():
+    url = "https://yev0r4zzyf.execute-api.eu-central-1.amazonaws.com/CloudComputing/rail-data-dev-agg"
+
+    
+    response = requests.request("GET", url)
+    matrices = json.loads(response.text)
+
+    return render_template('chord.html',matrixData=matrices)
 
 if __name__ == '__main__':
     flaskrun(application)
