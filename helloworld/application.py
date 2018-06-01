@@ -46,7 +46,7 @@ def back():
 
 @application.route('/chord')
 def chord():
-    url = "https://yev0r4zzyf.execute-api.eu-central-1.amazonaws.com/CloudComputing/rail-data-dev-agg"
+    url = "https://n71y3cx0w7.execute-api.eu-central-1.amazonaws.com/train-chord/rail-data-dev-agg"
 
     
     response = requests.request("GET", url)
